@@ -24,7 +24,13 @@
 
 static inline qreal qwtDevicePixelRatio()
 {
+#if 0
     return qGuiApp ? qGuiApp->devicePixelRatio() : 1.0;
+#else
+    // If I am not mistaken, either Qt or the operating system handles scaling
+    // automatically, so we don't want to end up scaling twice.
+    return 1.0;
+#endif
 }
 
 #endif
