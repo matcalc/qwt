@@ -93,7 +93,21 @@ QwtPainterCommand::QwtPainterCommand( const QPaintEngineState& state )
     }
 
     if ( m_stateData->flags & QPaintEngine::DirtyTransform )
-        m_stateData->transform = state.transform();
+    {
+        if (state.transform().type() == QTransform::TxScale
+           && state.transform().m11() == 0.0
+           && state.transform().m12() == 0.0
+           && state.transform().m13() == 0.0
+           && state.transform().m21() == 0.0
+           && state.transform().m22() == 0.0
+           && state.transform().m23() == 0.0
+           && state.transform().m31() == 0.0
+           && state.transform().m32() == 0.0
+           && state.transform().m33() == 1.0)
+          m_stateData->flags &= ~QPaintEngine::DirtyTransform;
+      else
+          m_stateData->transform = state.transform();
+    }
 
     if ( m_stateData->flags & QPaintEngine::DirtyClipEnabled )
         m_stateData->isClipEnabled = state.isClipEnabled();

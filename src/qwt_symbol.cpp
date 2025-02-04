@@ -1488,13 +1488,12 @@ void QwtSymbol::drawSymbol( QPainter* painter, const QRectF& rect ) const
 
         painter->save();
 
-        painter->translate( rect.center() );
         painter->scale( ratio, ratio );
 
         const bool isPinPointEnabled = m_data->isPinPointEnabled;
         m_data->isPinPointEnabled = false;
 
-        const QPointF pos;
+        const QPointF pos = rect.center();
         renderSymbols( painter, &pos, 1 );
 
         m_data->isPinPointEnabled = isPinPointEnabled;
